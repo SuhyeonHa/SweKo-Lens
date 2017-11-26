@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	ImageHandler * image_handler = new ImageHandler(&image);
+	image_handler->makeImageGray();
 	image_handler->displayImage();
 	return 0;
 }

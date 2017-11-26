@@ -10,12 +10,15 @@ class ImageHandler
 {
 private:
 	Mat * image;
+	Vec3b rgb2gray(Vec3b pixel);
 public:
 	ImageHandler(Mat * image);
 	void transform();
 	void edgeDetection();
 	void countourFinder();
 	void displayImage();
+	void makeImageGray();
+	
 	~ImageHandler();
 };
 
