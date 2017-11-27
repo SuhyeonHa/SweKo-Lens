@@ -1,2 +1,15 @@
 ﻿  ImageHandler.cpp
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(106): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(106): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(122): warning C4244: 'argument': conversion from 'float' to 'uchar', possible loss of data
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(133): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(133): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(141): warning C4244: '*=': conversion from 'float' to 'uchar', possible loss of data
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(142): warning C4244: '*=': conversion from 'float' to 'uchar', possible loss of data
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(143): warning C4244: '*=': conversion from 'float' to 'uchar', possible loss of data
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(157): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(157): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(165): warning C4244: '*=': conversion from 'float' to 'uchar', possible loss of data
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(166): warning C4244: '*=': conversion from 'float' to 'uchar', possible loss of data
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(167): warning C4244: '*=': conversion from 'float' to 'uchar', possible loss of data
   SweKo_Lens.vcxproj -> C:\Users\raz\source\repos\SweKo-Lens\SweKo_Lens\x64\Debug\SweKo_Lens.exe

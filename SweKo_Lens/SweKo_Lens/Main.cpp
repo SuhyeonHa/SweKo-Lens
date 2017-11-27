@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
 	}
 	ImageHandler * image_handler = new ImageHandler(&image);
 	image_handler->makeImageGray();
+	image_handler->gaussianBlur();
 	image_handler->displayImage();
 	return 0;
 }
