@@ -13,17 +13,15 @@ private:
 	int height;
 	int width;
 	Vec3b rgb2gray(Vec3b pixel);
-	void verticalBlur(Mat * img);
-	void horizontalBlur(Mat* img);
 	Vec3b averageValue(int x, int y);
 public:
 	ImageHandler(Mat * image);
 	void transform();
-	void edgeDetection();
+	Mat edgeDetection(Mat img);
 	void countourFinder();
-	void displayImage();
+	void displayImage(Mat img);
 	void makeImageGray();
-	void gaussianBlur();
+	Mat gaussianBlur();
 	
 	~ImageHandler();
 };

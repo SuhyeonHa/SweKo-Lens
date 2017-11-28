@@ -37,18 +37,48 @@ void ImageHandler::transform()
 {
 
 }
-void ImageHandler::edgeDetection()
+Mat ImageHandler::edgeDetection(Mat img)
 {
+	int mask[3][3] = {
+		{-1, -1, -1},
+		{-1 ,8, -1},
+		{-1, -1, -1},
+	};
 
+	int sum;
+	Vec3b color;
+	Mat * newImage = new Mat();
+	img.copyTo(*newImage);
+
+	for(int y = 1; y < img.rows-1; y++)
+	{
+		for(int x = 1; x < img.cols-1; x++)
+		{
+			sum = 0;
+			for(int i = 0; i < 3; i++)
+			{
+				for(int j = 0; j < 3; j++)
+				{
+					color =	img.at<Vec3b>(cv::Point(x + j - 1, y + i - 1));
+					sum += color.val[0] * mask[i][j];
+
+				}
+			}
+			sum *= 0.07;
+			newImage->at<Vec3b>(cv::Point(x, y)) = Vec3b(sum, sum, sum); 
+		}
+	}
+	return *newImage;
+	
 }
 void ImageHandler::countourFinder()
 {
 
 }
-void ImageHandler::displayImage()
+void ImageHandler::displayImage(Mat img)
 {
 	namedWindow("Display window", WINDOW_AUTOSIZE);
-	imshow("Display window", *image);
+	imshow("Display window", img);
 	
 	waitKey(0);
 }
@@ -79,7 +109,7 @@ void ImageHandler::makeImageGray()
 		}
 	}
 }
-void ImageHandler::gaussianBlur()
+Mat ImageHandler::gaussianBlur()
 {
 	Mat * newImage = new Mat();
 	image->copyTo(*newImage);
@@ -93,16 +123,17 @@ void ImageHandler::gaussianBlur()
 		}
 	}
 
-	image = newImage;
+	return *newImage;
 }
 Vec3b ImageHandler::averageValue(int x, int y)
 {
 	float kernel[5][5] = {
-		{0.003765,	0.015019,	0.023792,	0.015019,	0.003765},
-		{0.015019,	0.059912,	0.094907,	0.059912,	0.015019},
-		{0.023792,	0.094907,	0.150342,	0.094907,	0.023792},
-		{0.015019,	0.059912,	0.094907,	0.059912,	0.015019},
-		{0.003765,	0.015019,	0.023792,	0.015019,	0.003765},
+
+		{0.012841,	0.026743,	0.03415,	0.026743,	0.012841},
+		{0.026743,	0.055697,	0.071122,	0.055697,	0.026743},
+		{0.03415,	0.071122,	0.090818,	0.071122,	0.03415},
+		{0.026743,	0.055697,	0.071122,	0.055697,	0.026743},
+		{0.012841,	0.026743,	0.03415,	0.026743,	0.012841},
 	};
 	Vec3b color;
 	float blue = 0;
@@ -122,54 +153,6 @@ Vec3b ImageHandler::averageValue(int x, int y)
 	return Vec3b(blue, green, red);
 }
 
-void ImageHandler::verticalBlur(Mat * img)
-{
-	float kernel[5] = {
-		0.06136,
-		0.24477,
-		0.38774,
-		0.24477,
-		0.06136,
-	};
-
-	Vec3b color;
-	for(int y = 0; y < height; y++)
-	{
-		for (int x = 0; x < width; x++)
-		{
-			color = image->at<Vec3b>(cv::Point(x, y));
-			color.val[0] *= kernel[x % 5];
-			color.val[1] *= kernel[x % 5];
-			color.val[2] *= kernel[x % 5];
-			img->at<Vec3b>(cv::Point(x, y)) = color;
-		}
-	}
-	
-}
-void ImageHandler::horizontalBlur(Mat * img)
-{
-	float kernel[5] = {
-		0.06136,
-		0.24477,
-		0.38774,
-		0.24477,
-		0.06136,
-	};
-
-	Vec3b color;
-	for (int y = 0; y < width; y++)
-	{
-		for (int x = 0; x < height; x++)
-		{
-			color = image->at<Vec3b>(cv::Point(y, x));
-			color.val[0] *= kernel[x % 5];
-			color.val[1] *= kernel[x % 5];
-			color.val[2] *= kernel[x % 5];
-			img->at<Vec3b>(cv::Point(y, x)) = color;
-		}
-	}
-
-}
 
 
 
