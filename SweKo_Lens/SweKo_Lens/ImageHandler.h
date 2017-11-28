@@ -14,10 +14,15 @@ private:
 	int width;
 	Vec3b rgb2gray(Vec3b pixel);
 	Vec3b averageValue(int x, int y);
+	bool verticalEdge(Mat img, int x, int y);
+	bool horizontalEdge(Mat img, int x, int y);
+	Mat addImages(Mat img1, Mat img2);
 public:
 	ImageHandler(Mat * image);
 	void transform();
 	Mat edgeDetection(Mat img);
+	Mat sobel(Mat img);
+	bool edge(Mat img, int x, int y);
 	void countourFinder();
 	void displayImage(Mat img);
 	void makeImageGray();

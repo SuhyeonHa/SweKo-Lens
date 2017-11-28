@@ -1,2 +1,6 @@
-﻿  Main.cpp
+﻿  ImageHandler.cpp
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(73): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(143): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(143): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(159): warning C4244: 'argument': conversion from 'float' to 'uchar', possible loss of data
   SweKo_Lens.vcxproj -> C:\Users\raz\source\repos\SweKo-Lens\SweKo_Lens\x64\Debug\SweKo_Lens.exe
