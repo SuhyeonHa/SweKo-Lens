@@ -5,33 +5,22 @@
 #include <opencv2/core/mat.hpp>
 #include <opencv2/highgui.hpp>
 
-class Point
+P::P(int x, int y)
 {
-private:
-	float x;
-	float y;
-
-	Point(float x, float y)
-	{
 		this->x = x;
 		this->y = y;
-	}
-
-	void setX(float x) { this->x = x; }
-	void setY(float y) { this->y = y; }
-	float getX() { return x; }
-	float getY() { return y; }
-
-};
-	
-ImageHandler::ImageHandler(Mat * img)
-{
-	this->image = img;
-	this->height = image->rows;
-	this->width = image->cols;
 }
-ImageHandler::~ImageHandler()
+P::~P() {};
+void P::setX(int x) { this->x = x; }
+void P::setY(int y) { this->y = y; }
+int P::getX() { return x; }
+int P::getY() { return y; }
+
+ImageHandler::ImageHandler(Mat img)
 {
+	img.copyTo(image);
+	this->height = img.rows;
+	this->width = img.cols;
 }
 void ImageHandler::transform()
 {
@@ -77,10 +66,68 @@ Mat ImageHandler::edgeDetection(Mat img)
 	return *newImage;
 	
 }
-void ImageHandler::countourFinder()
+void ImageHandler::countourFinder(Mat img)
 {
-
+	int lookMask[4][2] = {
+		{-1, 0},
+		{0, -1},
+		{1, 0},
+		{0, 1},
+	};
+	
+	P start = findStartPoint(img);
+	std::set<P> visited;
+	visited.insert(start);
+	
+	P last = P(0, 0);
+	P current = P(start.getX(),start.getY());
+	P currentLooking = P(0, 0);
+	Vec3b color;
+	
+	while(visited.size() >= 1 && (last.getX() == start.getX() && last.getY() == start.getY()))
+	{
+		for(int i = 0; i < 4; i++)
+		{
+			currentLooking.setX(current.getX() + lookMask[i][0]);
+			currentLooking.setY(current.getY() + lookMask[i][1]);
+			color = img.at<Vec3b>(Point(currentLooking.getX(), currentLooking.getY()));
+			if (color.val[0] == 255 && visited.find(currentLooking) != visited.end())
+			{
+				visited.insert(currentLooking);
+				img.at<Vec3b>(Point(currentLooking.getX(), currentLooking.getY())) = Vec3b(0, 255, 0);
+				break;
+			}
+			currentLooking.setX(current.getX());
+			currentLooking.setY(current.getY());
+		}
+		current.setX(currentLooking.getX());
+		current.setY(currentLooking.getY());
+		last.setX(currentLooking.getX());
+		last.setY(currentLooking.getY());
+	}
+	
+	displayImage(img);
 }
+P ImageHandler::findStartPoint(Mat img)
+{
+	P start = P(0, 0);
+	Vec3b color;
+	for(int y = 0; y < img.rows; y++)
+	{
+		for(int x = 0; x < img.cols; x++)
+		{
+			color = img.at<Vec3b>(Point(x, y));
+			if(color.val[0] == 255)
+			{
+				start.setX(x);
+				start.setY(y);
+				break;
+			}
+		}
+	}
+	return start;
+}
+
 void ImageHandler::displayImage(Mat img)
 {
 	namedWindow("Display window", WINDOW_AUTOSIZE);
@@ -104,32 +151,31 @@ Vec3b ImageHandler::rgb2gray(Vec3b pixel)
 void ImageHandler::makeImageGray()
 {
 	Vec3b color;
-	
 	for(int y = 0; y < height; y++)
 	{
 		for(int x = 0; x < width; x++)
 		{
-			color = image->at<Vec3b>(cv::Point(x, y));
+			color = image.at<Vec3b>(cv::Point(x, y));
 			color = rgb2gray(color);
-			image->at<Vec3b>(cv::Point(x, y)) = color;
+			image.at<Vec3b>(cv::Point(x, y)) = color;
 		}
 	}
+	
 }
 Mat ImageHandler::gaussianBlur()
 {
-	Mat * newImage = new Mat();
-	image->copyTo(*newImage);
+	Mat newImage = Mat(image.rows-5, image.cols-5, CV_8UC3, Vec3b(0,0,0));
 	Vec3b color;
 	for(int y = 2; y < height-3; y++)
 	{
 		for(int x = 2; x < width-3; x++)
 		{
 			color = averageValue(x-2, y-2);
-			newImage->at<Vec3b>(cv::Point(x, y)) = color;
+			newImage.at<Vec3b>(cv::Point(x-2, y-2)) = color;
 		}
 	}
 
-	return *newImage;
+	return newImage;
 }
 Vec3b ImageHandler::averageValue(int x, int y)
 {
@@ -150,7 +196,7 @@ Vec3b ImageHandler::averageValue(int x, int y)
 	{
 		for(int j = 0; j < 5; j++)
 		{
-			color = image->at<Vec3b>(cv::Point(x+j, y+i));
+			color = image.at<Vec3b>(cv::Point(x+j, y+i));
 			blue += color.val[0] * kernel[i][j];
 			green += color.val[1] * kernel[i][j];
 			red += color.val[2] * kernel[i][j];
@@ -160,11 +206,10 @@ Vec3b ImageHandler::averageValue(int x, int y)
 }
 Mat ImageHandler::sobel(Mat img)
 {
-	Mat * imageX = new Mat();
-	Mat * imageY = new Mat();
-	Mat newImage = Mat();
-	img.copyTo(*imageX);
-	img.copyTo(*imageY);
+	Mat imageX = Mat(img.rows, img.cols, CV_8UC3, Scalar(0,0,0));
+	Mat imageY = Mat(img.rows, img.cols, CV_8UC3, Scalar(0,0,0));
+	Mat newImage;
+
 	bool check;
 	Vec3b white = {255,255,255};
 	Vec3b black = { 0,0,0 };
@@ -175,24 +220,25 @@ Mat ImageHandler::sobel(Mat img)
 			if((check = verticalEdge(img,x,y)) == true)
 			{
 				
-				imageX->at<Vec3b>(cv::Point(x, y)) = black;
+				imageX.at<Vec3b>(cv::Point(x, y)) = black;
 			}else
 			{
-				imageX->at<Vec3b>(cv::Point(x, y)) = white;
+				imageX.at<Vec3b>(cv::Point(x, y)) = white;
 			}
 
 			if ((check = horizontalEdge(img, x, y)) == true)
 			{
-				imageY->at<Vec3b>(cv::Point(x, y)) = black;
+				imageY.at<Vec3b>(cv::Point(x, y)) = black;
 			}
 			else
 			{
-				imageY->at<Vec3b>(cv::Point(x, y)) = white;
+				imageY.at<Vec3b>(cv::Point(x, y)) = white;
 			}
 			
 		}
 	}
-	newImage = addImages(*imageX, *imageY);
+	
+	newImage = addImages(imageX, imageY);
 	
 	return newImage;
 }

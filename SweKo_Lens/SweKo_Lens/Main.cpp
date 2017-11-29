@@ -10,9 +10,9 @@ int main(int argc, char* argv[])
 	Mat image;
 	Mat workingImage;
 	Mat testImage;
-	InputHandler * input = new InputHandler(argv[1]);
+	InputHandler input = InputHandler(argv[1]);
 	
-	int read_file_check = input->readFile(&image);
+	int read_file_check = input.readFile(&image);
 
 	
 
@@ -22,13 +22,13 @@ int main(int argc, char* argv[])
 	{
 		return -1;
 	}
-	image.copyTo(workingImage);
 
-	ImageHandler * image_handler = new ImageHandler(&image);
-	image_handler->makeImageGray();
-	workingImage = image_handler->gaussianBlur();
+	ImageHandler image_handler = ImageHandler(image);
+	image_handler.makeImageGray();
+	workingImage = image_handler.gaussianBlur();
 	//workingImage = image_handler->edgeDetection(workingImage);
-	testImage = image_handler->sobel(workingImage);
-	image_handler->displayImage(testImage);
+	testImage = image_handler.sobel(workingImage);
+	//image_handler.countourFinder(testImage);
+	//image_handler.displayImage(testImage);
 	return 0;
 }
