@@ -3,18 +3,7 @@
 #include "stdafx.h"
 #include "ImageHandler.h"
 #include <opencv2/core/mat.hpp>
-#include <opencv2/highgui.hpp>
 
-P::P(int x, int y)
-{
-		this->x = x;
-		this->y = y;
-}
-P::~P() {};
-void P::setX(int x) { this->x = x; }
-void P::setY(int y) { this->y = y; }
-int P::getX() { return x; }
-int P::getY() { return y; }
 
 ImageHandler::ImageHandler(Mat img)
 {
@@ -22,9 +11,35 @@ ImageHandler::ImageHandler(Mat img)
 	this->height = img.rows;
 	this->width = img.cols;
 }
-void ImageHandler::transform()
-{
 
+
+Mat transform(Mat img, Point2f points[4])
+{
+	Point2f tl = points[0];
+	Point2f tr = points[1];
+	Point2f bl = points[2];
+	Point2f br = points[3];
+
+	float widthA = sqrt(pow(br.x - bl.y, 2) + pow(br.x - bl.y, 2));
+	float widthB = sqrt(pow(tr.x - tl.x, 2) + pow(tr.y - tl.y, 2));
+	int maxWitdh = max(widthA, widthB);
+
+	float heightA = sqrt(pow(tr.x - br.x, 2) + pow(tr.y - br.y, 2));
+	float heightB = sqrt(pow(tl.x - bl.x, 2) + pow(tl.y - bl.y, 2));
+	int maxheight = max(heightA, heightB);
+
+	Point2f newPoints[4];
+	
+	newPoints[0] = Point2f(0, 0);
+	newPoints[1] = Point2f(maxWitdh - 1, 0);
+	newPoints[2] = Point2f(maxWitdh - 1,maxheight - 1);
+	newPoints[3] = Point2f(0, maxheight - 1);
+	Mat output;
+	Mat lambda(2, 4, CV_32FC1);	
+	lambda = Mat::zeros(img.rows, img.cols, img.type());
+	lambda = getPerspectiveTransform(points, newPoints);
+	warpPerspective(img,output, lambda, output.size());
+	return output;
 }
 Mat ImageHandler::edgeDetection(Mat img)
 {
@@ -66,67 +81,7 @@ Mat ImageHandler::edgeDetection(Mat img)
 	return *newImage;
 	
 }
-void ImageHandler::countourFinder(Mat img)
-{
-	int lookMask[4][2] = {
-		{-1, 0},
-		{0, -1},
-		{1, 0},
-		{0, 1},
-	};
-	
-	P start = findStartPoint(img);
-	std::set<P> visited;
-	visited.insert(start);
-	
-	P last = P(0, 0);
-	P current = P(start.getX(),start.getY());
-	P currentLooking = P(0, 0);
-	Vec3b color;
-	
-	while(visited.size() >= 1 && (last.getX() == start.getX() && last.getY() == start.getY()))
-	{
-		for(int i = 0; i < 4; i++)
-		{
-			currentLooking.setX(current.getX() + lookMask[i][0]);
-			currentLooking.setY(current.getY() + lookMask[i][1]);
-			color = img.at<Vec3b>(Point(currentLooking.getX(), currentLooking.getY()));
-			if (color.val[0] == 255 && visited.find(currentLooking) != visited.end())
-			{
-				visited.insert(currentLooking);
-				img.at<Vec3b>(Point(currentLooking.getX(), currentLooking.getY())) = Vec3b(0, 255, 0);
-				break;
-			}
-			currentLooking.setX(current.getX());
-			currentLooking.setY(current.getY());
-		}
-		current.setX(currentLooking.getX());
-		current.setY(currentLooking.getY());
-		last.setX(currentLooking.getX());
-		last.setY(currentLooking.getY());
-	}
-	
-	displayImage(img);
-}
-P ImageHandler::findStartPoint(Mat img)
-{
-	P start = P(0, 0);
-	Vec3b color;
-	for(int y = 0; y < img.rows; y++)
-	{
-		for(int x = 0; x < img.cols; x++)
-		{
-			color = img.at<Vec3b>(Point(x, y));
-			if(color.val[0] == 255)
-			{
-				start.setX(x);
-				start.setY(y);
-				break;
-			}
-		}
-	}
-	return start;
-}
+
 
 void ImageHandler::displayImage(Mat img)
 {

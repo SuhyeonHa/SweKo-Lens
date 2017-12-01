@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 	workingImage = image_handler.gaussianBlur();
 	//workingImage = image_handler->edgeDetection(workingImage);
 	testImage = image_handler.sobel(workingImage);
-	//image_handler.countourFinder(testImage);
+	
 	//image_handler.displayImage(testImage);
 	return 0;
 }
