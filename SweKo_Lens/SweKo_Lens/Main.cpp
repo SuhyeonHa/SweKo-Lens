@@ -22,21 +22,14 @@ int main(int argc, char* argv[])
 	}
 	image.copyTo(workingImage);
 
-	ImageHandler * image_handler = new ImageHandler(&image);
+	ImageHandler * image_handler = new ImageHandler(image);
 	image_handler->makeImageGray();
 	workingImage = image_handler->gaussianBlur();
 	//workingImage = image_handler->edgeDetection(workingImage);
-<<<<<<< HEAD
-	testImage = image_handler.sobel(workingImage);
-	
-	//image_handler.displayImage(testImage);
-=======
 	testImage = image_handler->sobel(workingImage);
 	imshow("tst", testImage);
-	cornerImage = image_handler->harrisCorner(testImage);
+	/*cornerImage = image_handler->harrisCorner(testImage);
 
-
-	image_handler->displayImage(cornerImage);
->>>>>>> b063b1ebb42aa991af313721b39a43ed9550fae3
+	image_handler->displayImage(cornerImage);*/
 	return 0;
 }

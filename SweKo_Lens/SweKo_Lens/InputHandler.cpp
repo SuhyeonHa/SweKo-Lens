@@ -4,7 +4,6 @@
 #include "InputHandler.h"
 
 
-
 InputHandler::InputHandler(string filename)
 {
 	this->filename = filename;
@@ -20,7 +19,7 @@ int InputHandler::readFile(Mat * image)
 {
 
 
-	*image = imread(filename, CV_LOAD_IMAGE_COLOR);
+	*image = cv::imread(filename, CV_LOAD_IMAGE_COLOR);
 
 	if(!image->data)
 	{

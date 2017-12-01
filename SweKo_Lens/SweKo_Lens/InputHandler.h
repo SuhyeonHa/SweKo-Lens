@@ -1,10 +1,9 @@
 // InputHandler.h
 
-#pragma once
-#include "stdafx.h"
 #include <iostream>
-#include <opencv2/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/core/mat.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgcodecs/imgcodecs_c.h>
 
 using namespace std;
 using namespace cv;

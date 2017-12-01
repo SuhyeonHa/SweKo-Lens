@@ -119,16 +119,16 @@ void ImageHandler::makeImageGray()
 	{
 		for(int x = 0; x < width; x++)
 		{
-			color = image->at<Vec3b>(cv::Point(x, y));
+			color = image.at<Vec3b>(cv::Point(x, y));
 			color = rgb2gray(color);
-			image->at<Vec3b>(cv::Point(x, y)) = color;
+			image.at<Vec3b>(cv::Point(x, y)) = color;
 		}
 	}
 }
 Mat ImageHandler::gaussianBlur()
 {
 	Mat * newImage = new Mat();
-	image->copyTo(*newImage);
+	image.copyTo(*newImage);
 	Vec3b color;
 	for(int y = 2; y < height-3; y++)
 	{
@@ -160,7 +160,7 @@ Vec3b ImageHandler::averageValue(int x, int y)
 	{
 		for(int j = 0; j < 5; j++)
 		{
-			color = image->at<Vec3b>(cv::Point(x+j, y+i));
+			color = image.at<Vec3b>(cv::Point(x+j, y+i));
 			blue += color.val[0] * kernel[i][j];
 			green += color.val[1] * kernel[i][j];
 			red += color.val[2] * kernel[i][j];
