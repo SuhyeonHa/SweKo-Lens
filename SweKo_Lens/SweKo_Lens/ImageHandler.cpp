@@ -3,43 +3,20 @@
 #include "stdafx.h"
 #include "ImageHandler.h"
 #include <opencv2/core/mat.hpp>
-<<<<<<< HEAD
-
-=======
 #include <opencv2/highgui.hpp>
 #include <opencv2\core\core.hpp>
 #include <iostream>
 #include <opencv2\imgproc\imgproc.hpp>
-using namespace cv;
-using namespace std;
 
 
 
-class Point
-{
-private:
-	float x;
-	float y;
 
-	Point(float x, float y)
-	{
-		this->x = x;
-		this->y = y;
-	}
->>>>>>> b063b1ebb42aa991af313721b39a43ed9550fae3
-
-	void setX(float x) { this->x = x; }
-	void setY(float y) { this->y = y; }
-	float getX() { return x; }
-	float getY() { return y; }
-
-};
 	
-ImageHandler::ImageHandler(Mat * img)
+ImageHandler::ImageHandler(Mat image)
 {
-	this->image = img;
-	this->height = image->rows;
-	this->width = image->cols;
+	this->image = image;
+	this->height = image.rows;
+	this->width = image.cols;
 }
 ImageHandler::~ImageHandler()
 {
@@ -113,14 +90,6 @@ Mat ImageHandler::edgeDetection(Mat img)
 	}
 	return *newImage;
 	
-}
-<<<<<<< HEAD
-
-=======
-void ImageHandler::countourFinder()
-{
->>>>>>> b063b1ebb42aa991af313721b39a43ed9550fae3
-
 }
 void ImageHandler::displayImage(Mat img)
 {
@@ -237,7 +206,6 @@ Mat ImageHandler::sobel(Mat img)
 	
 	return newImage;
 }
-
 Mat ImageHandler::addImages(Mat img1, Mat img2)
 {
 	
