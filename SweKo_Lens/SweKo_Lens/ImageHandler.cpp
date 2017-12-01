@@ -3,13 +3,46 @@
 #include "stdafx.h"
 #include "ImageHandler.h"
 #include <opencv2/core/mat.hpp>
+<<<<<<< HEAD
+
+=======
+#include <opencv2/highgui.hpp>
+#include <opencv2\core\core.hpp>
+#include <iostream>
+#include <opencv2\imgproc\imgproc.hpp>
+using namespace cv;
+using namespace std;
 
 
-ImageHandler::ImageHandler(Mat img)
+
+class Point
 {
-	img.copyTo(image);
-	this->height = img.rows;
-	this->width = img.cols;
+private:
+	float x;
+	float y;
+
+	Point(float x, float y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+>>>>>>> b063b1ebb42aa991af313721b39a43ed9550fae3
+
+	void setX(float x) { this->x = x; }
+	void setY(float y) { this->y = y; }
+	float getX() { return x; }
+	float getY() { return y; }
+
+};
+	
+ImageHandler::ImageHandler(Mat * img)
+{
+	this->image = img;
+	this->height = image->rows;
+	this->width = image->cols;
+}
+ImageHandler::~ImageHandler()
+{
 }
 
 
@@ -81,8 +114,14 @@ Mat ImageHandler::edgeDetection(Mat img)
 	return *newImage;
 	
 }
+<<<<<<< HEAD
 
+=======
+void ImageHandler::countourFinder()
+{
+>>>>>>> b063b1ebb42aa991af313721b39a43ed9550fae3
 
+}
 void ImageHandler::displayImage(Mat img)
 {
 	namedWindow("Display window", WINDOW_AUTOSIZE);
@@ -106,31 +145,32 @@ Vec3b ImageHandler::rgb2gray(Vec3b pixel)
 void ImageHandler::makeImageGray()
 {
 	Vec3b color;
+	
 	for(int y = 0; y < height; y++)
 	{
 		for(int x = 0; x < width; x++)
 		{
-			color = image.at<Vec3b>(cv::Point(x, y));
+			color = image->at<Vec3b>(cv::Point(x, y));
 			color = rgb2gray(color);
-			image.at<Vec3b>(cv::Point(x, y)) = color;
+			image->at<Vec3b>(cv::Point(x, y)) = color;
 		}
 	}
-	
 }
 Mat ImageHandler::gaussianBlur()
 {
-	Mat newImage = Mat(image.rows-5, image.cols-5, CV_8UC3, Vec3b(0,0,0));
+	Mat * newImage = new Mat();
+	image->copyTo(*newImage);
 	Vec3b color;
 	for(int y = 2; y < height-3; y++)
 	{
 		for(int x = 2; x < width-3; x++)
 		{
 			color = averageValue(x-2, y-2);
-			newImage.at<Vec3b>(cv::Point(x-2, y-2)) = color;
+			newImage->at<Vec3b>(cv::Point(x, y)) = color;
 		}
 	}
 
-	return newImage;
+	return *newImage;
 }
 Vec3b ImageHandler::averageValue(int x, int y)
 {
@@ -151,7 +191,7 @@ Vec3b ImageHandler::averageValue(int x, int y)
 	{
 		for(int j = 0; j < 5; j++)
 		{
-			color = image.at<Vec3b>(cv::Point(x+j, y+i));
+			color = image->at<Vec3b>(cv::Point(x+j, y+i));
 			blue += color.val[0] * kernel[i][j];
 			green += color.val[1] * kernel[i][j];
 			red += color.val[2] * kernel[i][j];
@@ -161,10 +201,11 @@ Vec3b ImageHandler::averageValue(int x, int y)
 }
 Mat ImageHandler::sobel(Mat img)
 {
-	Mat imageX = Mat(img.rows, img.cols, CV_8UC3, Scalar(0,0,0));
-	Mat imageY = Mat(img.rows, img.cols, CV_8UC3, Scalar(0,0,0));
-	Mat newImage;
-
+	Mat * imageX = new Mat();
+	Mat * imageY = new Mat();
+	Mat newImage = Mat();
+	img.copyTo(*imageX);
+	img.copyTo(*imageY);
 	bool check;
 	Vec3b white = {255,255,255};
 	Vec3b black = { 0,0,0 };
@@ -175,28 +216,28 @@ Mat ImageHandler::sobel(Mat img)
 			if((check = verticalEdge(img,x,y)) == true)
 			{
 				
-				imageX.at<Vec3b>(cv::Point(x, y)) = black;
+				imageX->at<Vec3b>(cv::Point(x, y)) = black;
 			}else
 			{
-				imageX.at<Vec3b>(cv::Point(x, y)) = white;
+				imageX->at<Vec3b>(cv::Point(x, y)) = white;
 			}
 
 			if ((check = horizontalEdge(img, x, y)) == true)
 			{
-				imageY.at<Vec3b>(cv::Point(x, y)) = black;
+				imageY->at<Vec3b>(cv::Point(x, y)) = black;
 			}
 			else
 			{
-				imageY.at<Vec3b>(cv::Point(x, y)) = white;
+				imageY->at<Vec3b>(cv::Point(x, y)) = white;
 			}
 			
 		}
 	}
-	
-	newImage = addImages(imageX, imageY);
+	newImage = addImages(*imageX, *imageY);
 	
 	return newImage;
 }
+
 Mat ImageHandler::addImages(Mat img1, Mat img2)
 {
 	
@@ -262,6 +303,149 @@ bool ImageHandler::horizontalEdge(Mat img, int x, int y)
 		return true;
 	}
 	return false;
+}
+
+/* suhyeon */
+Mat ImageHandler::harrisCorner(Mat img)
+{
+	int width = img.cols;
+	int height = img.rows;
+
+	Mat * newImage = new Mat();
+	img.copyTo(*newImage);
+
+	Mat origin; origin = Mat::zeros(height, width, CV_32FC1);
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++)	{
+			origin.at<float>(y, x) = img.at<Vec3b>(y, x)[0];
+		}
+	}
+
+	//imshow("origin", origin);
+
+	Mat imageDxx; imageDxx = Mat::zeros(height, width, CV_32FC1);
+	Mat imageDxy; imageDxy = Mat::zeros(height, width, CV_32FC1);
+	Mat imageDyy; imageDyy = Mat::zeros(height, width, CV_32FC1); //CV_8UC1
+
+	// 1. CALCULATE (fx)*(fx), (fx)*(fy), (fy)*(fy)
+	float dx = 0, dy = 0;
+
+	for (int i = 1; i < height - 2; i++) {
+		for (int j = 1; j < width - 2; j++) {
+			
+			dx = (origin.at<float>(i - 1, j + 1) + origin.at<float>(i, j + 1) + origin.at<float>(i + 1, j + 1)
+				- origin.at<float>(i - 1, j - 1) - origin.at<float>(i, j - 1) - origin.at<float>(i + 1, j - 1)) / 6.f;
+			dy = (origin.at<float>(i + 1, j - 1) + origin.at<float>(i + 1, j) + origin.at<float>(i + 1, j + 1)
+				- origin.at<float>(i - 1, j - 1) - origin.at<float>(i - 1, j) - origin.at<float>(i - 1, j + 1)) / 6.f;
+			
+			imageDxx.at<float>(i, j) = dx*dx;
+			imageDxy.at<float>(i, j) = dx*dy;
+			imageDyy.at<float>(i, j) = dy*dy;
+		}
+	}
+
+	//imshow("dxx", imageDxx);
+	//imshow("dxy", imageDxy);
+	//imshow("dyy", imageDyy);
+
+	// 2. Gaussian Filtering
+	Mat imageGxx; imageGxx = Mat::zeros(height, width, CV_32FC1);
+	Mat imageGxy; imageGxy = Mat::zeros(height, width, CV_32FC1);
+	Mat imageGyy; imageGyy = Mat::zeros(height, width, CV_32FC1);
+
+	float g[5][5] = { { 1, 4, 6, 4, 1 },{ 4, 16, 24, 16, 4 },
+	{ 6, 24, 36, 24, 6 },{ 4, 16, 24, 16, 4 },{ 1, 4, 6, 4, 1 } };
+
+	for (int y = 0; y < 5; y++)
+		for (int x = 0; x < 5; x++)
+		{
+			g[y][x] /= 256.f;
+		}
+
+	float gxx, gxy, gyy;
+	for (int i = 2; i < height-2; i++)
+		for (int j = 2; j < width-2; j++)
+		{
+			gxx = gyy = gxy = 0;
+			for (int y = 0; y < 5; y++)
+				for (int x = 0; x < 5; x++)
+				{
+
+					gxx += (imageDxx.at<float>(i + y - 2, j + x - 2) * g[y][x]);
+					gxy += (imageDxy.at<float>(i + y - 2, j + x - 2) * g[y][x]);
+					gyy += (imageDyy.at<float>(i + y - 2, j + x - 2) * g[y][x]);
+				}
+			//printf("%d %d %d \n", gxx, gxy, gyy);
+			imageGxx.at<float>(i,j) = gxx;
+			imageGxy.at<float>(i,j) = gxy;
+			imageGyy.at<float>(i,j) = gyy;
+		}
+
+	//imshow("gxx", imageGxx);
+	//imshow("gxy", imageGxy);
+	//imshow("gyy", imageGyy);
+
+	//3. Corner Responce Function
+	Mat imageCRF; imageCRF = Mat::zeros(height, width, CV_32FC1);
+	float val;
+	float k = 0.04f;
+	for (int i = 0; i < height - 2; i++)
+		for (int j = 0; j < width - 2; j++)
+		{
+			val = (imageGxx.at<float>(i,j) * imageGyy.at<float>(i, j)
+				- imageGxy.at<float>(i, j)*imageGxy.at<float>(i, j))
+				- k*(imageGxx.at<float>(i, j) + imageGyy.at<float>(i, j))
+				*(imageGxx.at<float>(i, j) + imageGyy.at<float>(i, j));
+			imageCRF.at<float>(i, j) = val;
+			if(val>15000000) printf("%f ", val);
+		}
+	//imshow("CRF", imageCRF);
+
+	// 4. Decide corner points
+	vector<Point2i> corners;
+	corners.clear();
+	float cvf_value;
+	float th = 18000000;//20000000: test.jpg
+	int numCount = 0;
+
+	for (int i = 2; i < height - 2; i++)
+		for (int j = 2; j < width - 2; j++)
+		{
+			cvf_value = imageCRF.at<float>(i,j);
+			if (cvf_value > th)
+			{
+				if (cvf_value > imageCRF.at<float>(i - 1, j) && cvf_value > imageCRF.at<float>(i - 1, j + 1) &&
+					cvf_value > imageCRF.at<float>(i, j + 1) && cvf_value > imageCRF.at<float>(i + 1, j + 1) &&
+					cvf_value > imageCRF.at<float>(i + 1, j) && cvf_value > imageCRF.at<float>(i + 1, j - 1) &&
+					cvf_value > imageCRF.at<float>(i, j - 1) && cvf_value > imageCRF.at<float>(i - 1, j - 1))
+				{
+					numCount++;
+					corners.push_back(Point2i(i, j));
+					printf("(%d, %d)", i, j);
+				}
+			}
+		}
+	printf("%d", numCount);
+
+	// 5. DrowCross
+	Mat imageCross; imageCross = Mat::zeros(height, width, CV_32FC1);
+	int numCorner = corners.size();
+	for (int n = 0; n < numCorner; n++) {
+		DrawCross(imageCross, corners.at(n).x, corners.at(n).y);
+	}
+
+	//imshow("result", imageCross);
+
+	return imageCross;
+}
+
+void ImageHandler::DrawCross(Mat img, int x, int y) {
+	printf("%d, %d \n", x, y);
+	img.at<float>(x,y) = 255;
+	img.at<float>(x, y - 1) = 255;
+	img.at<float>(x, y + 1) = 255;
+	img.at<float>(x - 1, y) = 255;
+	img.at<float>(x + 1, y) = 255;
 }
 
 

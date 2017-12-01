@@ -11,7 +11,10 @@ InputHandler::InputHandler(string filename)
 }
 
 
+InputHandler::~InputHandler()
+{
 
+}
 
 int InputHandler::readFile(Mat * image)
 {
