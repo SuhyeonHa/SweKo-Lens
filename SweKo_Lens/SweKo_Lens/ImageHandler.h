@@ -1,16 +1,15 @@
 // ImageHandler.h
 
 #pragma once
-#include <set>
+#include <iostream>
 #include <opencv2/core/mat.hpp>
 using namespace std;
 using namespace cv;
 
 class ImageHandler
 {
-	friend class P;
 private:
-	Mat image;
+	Mat * image;
 	int height;
 	int width;
 	Vec3b rgb2gray(Vec3b pixel);
@@ -18,33 +17,21 @@ private:
 	bool verticalEdge(Mat img, int x, int y);
 	bool horizontalEdge(Mat img, int x, int y);
 	Mat addImages(Mat img1, Mat img2);
-	P findStartPoint(Mat img);
 public:
-	ImageHandler(Mat image);
+	ImageHandler(Mat * image);
 	void transform();
 	Mat edgeDetection(Mat img);
 	Mat sobel(Mat img);
 	bool edge(Mat img, int x, int y);
-	void countourFinder(Mat img);
+	void countourFinder();
 	void displayImage(Mat img);
 	void makeImageGray();
 	Mat gaussianBlur();
+	/* suhyeon*/
+	Mat harrisCorner(Mat img);
+	void DrawCross(Mat img, int x, int y);
 	
-};
-class P
-{
-private:
-	int x;
-	int y;
-public:
-	P(int x, int y);
-	~P();
-
-	void setX(int x);
-	void setY(int y);
-	int getX();
-	int getY();
-
+	~ImageHandler();
 };
 
 

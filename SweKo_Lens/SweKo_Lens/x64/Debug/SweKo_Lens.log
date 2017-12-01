@@ -1,48 +1,24 @@
-﻿  ImageHandler.cpp
-c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(62): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
-c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(189): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(189): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(205): warning C4244: 'argument': conversion from 'float' to 'uchar', possible loss of data
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\xstddef(156): error C2678: binary '<': no operator found which takes a left-hand operand of type 'const P' (or there is no acceptable conversion)
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\system_error(407): note: could be 'bool std::operator <(const std::error_condition &,const std::error_condition &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\system_error(400): note: or       'bool std::operator <(const std::error_code &,const std::error_code &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\xstddef(156): note: while trying to match the argument list '(const P, const P)'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\xstddef(155): note: while compiling class template member function 'bool std::less<_Kty>::operator ()(const _Ty &,const _Ty &) const'
-          with
-          [
-              _Kty=P,
-              _Ty=P
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\xutility(944): note: see reference to function template instantiation 'bool std::less<_Kty>::operator ()(const _Ty &,const _Ty &) const' being compiled
-          with
-          [
-              _Kty=P,
-              _Ty=P
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\type_traits(575): note: see reference to class template instantiation 'std::less<_Kty>' being compiled
-          with
-          [
-              _Kty=P
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\xutility(289): note: see reference to class template instantiation 'std::is_empty<_Ty1>' being compiled
-          with
-          [
-              _Ty1=std::less<P>
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\xtree(841): note: see reference to class template instantiation 'std::_Tree_comp_alloc<_Traits>' being compiled
-          with
-          [
-              _Traits=std::_Tset_traits<P,std::less<P>,std::allocator<P>,false>
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\set(45): note: see reference to class template instantiation 'std::_Tree<std::_Tset_traits<_Kty,_Pr,_Alloc,false>>' being compiled
-          with
-          [
-              _Kty=P,
-              _Pr=std::less<P>,
-              _Alloc=std::allocator<P>
-          ]
-  c:\users\raz\source\repos\sweko-lens\sweko_lens\sweko_lens\imagehandler.cpp(79): note: see reference to class template instantiation 'std::set<P,std::less<_Kty>,std::allocator<_Kty>>' being compiled
-          with
-          [
-              _Kty=P
-          ]
+﻿빌드 시작: 2017-12-01 오후 6:24:32
+     1>2 노드의 "C:\Users\caucse\Desktop\SweKo-Lens-master (2)\SweKo-Lens-master\SweKo_Lens\SweKo_Lens\SweKo_Lens.vcxproj" 프로젝트(Build 대상)입니다.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IC:\opencv\build\include /Zi /nologo /W3 /WX- /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"x64\Debug\SweKo_Lens.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt ImageHandler.cpp
+         ImageHandler.cpp
+     1>C:\opencv\build\include\opencv2/core/mat.hpp(1965): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+     1>C:\opencv\build\include\opencv2/core/persistence.hpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+     1>C:\opencv\build\include\opencv2/core/utility.hpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+     1>ImageHandler.cpp(80): warning C4244: '*=' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>ImageHandler.cpp(150): warning C4305: '초기화 중' : 'double'에서 'float'(으)로 잘립니다.
+     1>ImageHandler.cpp(166): warning C4244: '인수' : 'float'에서 'uchar'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>ImageHandler.cpp(398): warning C4267: '초기화 중' : 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\caucse\Desktop\SweKo-Lens-master (2)\SweKo-Lens-master\SweKo_Lens\x64\Debug\SweKo_Lens.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\opencv\build\x64\vc14\lib opencv_world310d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\caucse\Desktop\SweKo-Lens-master (2)\SweKo-Lens-master\SweKo_Lens\x64\Debug\SweKo_Lens.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\caucse\Desktop\SweKo-Lens-master (2)\SweKo-Lens-master\SweKo_Lens\x64\Debug\SweKo_Lens.lib" /MACHINE:X64 x64\Debug\Gui.obj
+         x64\Debug\ImageHandler.obj
+         x64\Debug\InputHandler.obj
+         x64\Debug\Main.obj
+         x64\Debug\stdafx.obj
+         SweKo_Lens.vcxproj -> C:\Users\caucse\Desktop\SweKo-Lens-master (2)\SweKo-Lens-master\SweKo_Lens\x64\Debug\SweKo_Lens.exe
+     1>"C:\Users\caucse\Desktop\SweKo-Lens-master (2)\SweKo-Lens-master\SweKo_Lens\SweKo_Lens\SweKo_Lens.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+
+빌드했습니다.
+
+경과 시간: 00:00:00.86

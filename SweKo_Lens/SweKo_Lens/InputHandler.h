@@ -15,6 +15,7 @@ private:
 	string filename;
 public:
 	InputHandler(string filename);
+	~InputHandler();
 	int readFile(Mat* image);
 };
 
