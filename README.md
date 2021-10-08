@@ -8,4 +8,9 @@ Simple implementation of Office Lens of Microsoft which is a handy capture app t
 2. Pick four corners of a document on the image.
 3. SweKo Lens crops, enhances, and shows it to you.
 
+## Results
+<img src="/result1.PNG" height="200"></img>
+
+<img src="/result2.PNG" height="500"></img>
+
 Please refer to [Perspective Projection and Transformations](https://www.cs.cornell.edu/courses/cs4670/2018sp/lec16-image-formn.pdf)
