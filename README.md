@@ -15,6 +15,7 @@ The program is a console based application for your computer, it takes four poin
 The program is built of three components `main`, `myFunc` and `ptr`.
 
 **Main**: To handle input and output from the user and display the original and processed image.
+
 **myFunc**: To Contain image processing functions used by Main.
 - Grayscale
 - Binarization
@@ -23,6 +24,7 @@ The program is built of three components `main`, `myFunc` and `ptr`.
 - Corner_response_func: to find the corners
 - Calcptm: to calculate a 8x8 projection matrix.  
 - Warp: to perform a matrix multiplication to transform the image to a bird-view.
+- 
 **ptr**: A simple data structure which stores the x, y-coordinates of four points.
 
 ## Results
