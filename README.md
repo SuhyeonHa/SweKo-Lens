@@ -24,11 +24,11 @@ The program is built of three components `main`, `myFunc` and `ptr`.
 - Corner_response_func: to find the corners
 - Calcptm: to calculate a 8x8 projection matrix.  
 - Warp: to perform a matrix multiplication to transform the image to a bird-view.
-- 
+
 **ptr**: A simple data structure which stores the x, y-coordinates of four points.
 
 ## Results
-Before-and-after looks of a receipts, notes, and documents captured and processed by SweKo Lens!
+Before-and-after looks of receipts, notes, and documents captured and processed by SweKo Lens!
 
 <img src="/result1.PNG" height="200"></img>
 
